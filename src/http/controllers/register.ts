@@ -14,6 +14,18 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   const password_hash = await hash(password, 6);
 
+  const useWithSameEmail = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (useWithSameEmail) {
+    return reply.status(409).send({
+      message: "User with same email already exists",
+    });
+  }
+
   await prisma.user.create({
     data: {
       name,
