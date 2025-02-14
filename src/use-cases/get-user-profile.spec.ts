@@ -20,8 +20,6 @@ describe("Get User Profile Use Case", () => {
       password_hash: await hash("123456", 6),
     });
 
-    console.log(createdUser);
-
     const { user } = await sut.execute({
       userId: createdUser.id,
     });
